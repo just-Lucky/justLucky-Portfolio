@@ -53,7 +53,7 @@
             width: 80%;
             margin: auto;
             overflow: hidden;
-            padding-bottom: 80px; /* Adjust this value as needed to ensure content is visible below the fixed footer */
+            padding-bottom: 80px;
         }
         
         .section {
@@ -170,13 +170,11 @@
         label:active:after {
             width: 45px;
         }
-        /* Adjusted Link Color */
         a {
-            color: #007aff; /* Light blue color */
+            color: #007aff;
         }
-        /* Adjusted Link Color in Dark Mode */
         body.dark-mode a {
-            color: #3b78e7; /* Lighter blue color */
+            color: #3b78e7;
         }
     </style>
 </head>
@@ -257,7 +255,6 @@
         const footer = document.querySelector('footer');
         const currentTheme = localStorage.getItem('theme');
     
-        // Function to update theme and footer color
         function updateTheme(theme) {
             document.body.classList.toggle('dark-mode', theme === 'dark-mode');
             footer.classList.toggle('dark-mode-footer', theme === 'dark-mode');
@@ -279,8 +276,6 @@
             }
         });
     </script>
-    
-    
     
     
     
