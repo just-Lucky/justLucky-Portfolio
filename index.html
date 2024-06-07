@@ -14,12 +14,18 @@
             padding: 0;
             background-color: #f4f4f4;
             color: #333;
+            transition: background-color 0.5s, color 0.5s;
+        }
+        body.dark-mode {
+            background-color: #333;
+            color: #f4f4f4;
         }
         header {
             background-color: #333;
             color: #fff;
             padding: 1em 0;
             text-align: center;
+            position: relative;
         }
         nav ul {
             list-style: none;
@@ -32,16 +38,31 @@
         nav ul li a {
             color: #fff;
             text-decoration: none;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover {
+            color: #ddd;
+        }
+        body.dark-mode nav ul li a {
+            color: #ddd;
+        }
+        body.dark-mode nav ul li a:hover {
+            color: #ccc;
         }
         .container {
             width: 80%;
             margin: auto;
             overflow: hidden;
+            padding-bottom: 80px; /* Adjust this value as needed to ensure content is visible below the fixed footer */
         }
+        
         .section {
             padding: 2em 0;
             border-bottom: 1px solid #ccc;
             text-align: center;
+        }
+        body.dark-mode .section {
+            border-bottom-color: #555;
         }
         .section h2 {
             text-align: center;
@@ -52,12 +73,23 @@
             margin: 0;
         }
         footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
             background-color: #333;
             color: #fff;
             text-align: center;
             padding: 1em 0;
-            margin-top: 20px;
         }
+        .dark-mode-footer {
+            background-color: #fff;
+            color: #000;
+        }
+        
+        
+        
+        
         .applications ul {
             list-style: none;
             padding: 0;
@@ -72,12 +104,79 @@
             background: #ddd;
             padding: 10px 20px;
             border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
         }
         .applications ul li a:hover {
             background: #bbb;
         }
+        body.dark-mode .applications ul li a {
+            color: #f4f4f4;
+            background: #555;
+        }
+        body.dark-mode .applications ul li a:hover {
+            background: #777;
+        }
         ul {
             list-style-type: none;
+        }
+        @media (max-width: 768px) {
+            nav ul li {
+                display: block;
+                margin: 5px 0;
+            }
+            .container {
+                width: 95%;
+            }
+            h1 {
+                font-size: 3em;
+            }
+        }
+        .theme-switch {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+        }
+        .theme-switch input {
+            display: none;
+        }
+        .theme-switch label {
+            cursor: pointer;
+            text-indent: -9999px;
+            width: 52px;
+            height: 27px;
+            background: grey;
+            display: block;
+            border-radius: 100px;
+            position: relative;
+        }
+        .theme-switch label:after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 23px;
+            height: 23px;
+            background: #fff;
+            border-radius: 90px;
+            transition: 0.3s;
+        }
+        .theme-switch input:checked + label {
+            background: #bada55;
+        }
+        .theme-switch input:checked + label:after {
+            left: calc(100% - 2px);
+            transform: translateX(-100%);
+        }
+        label:active:after {
+            width: 45px;
+        }
+        /* Adjusted Link Color */
+        a {
+            color: #007aff; /* Light blue color */
+        }
+        /* Adjusted Link Color in Dark Mode */
+        body.dark-mode a {
+            color: #3b78e7; /* Lighter blue color */
         }
     </style>
 </head>
@@ -94,9 +193,13 @@
                 <li><a href="#contact">Contact Me</a></li>
             </ul>
         </nav>
+        <div class="theme-switch">
+            <input type="checkbox" id="dark-mode-toggle">
+            <label for="dark-mode-toggle">Toggle Dark Mode</label>
+        </div>
     </header>
     
-    <div class="container">
+    <main class="container">
         <section id="home" class="section">
             <h2>Welcome</h2>
             <p>Welcome to my portfolio! I'm known online as 'justLucky', an enthusiastic programmer and beginner-level ethical hacker. Explore my site to learn more about me and my work.</p>
@@ -109,7 +212,7 @@
 
         <section id="applications" class="section">
             <h2>My Apps</h2>
-            <p>Here are some of the applications I've developed. Feel free to download and try them out! (I advise that you read the 'README.txt' file after downloading one of my apps in order to have a better understanding of its functionalities.) Please note that you will most likely get an alert from your antivirus, that's because my applications are not signed; signing them would cost way too much (up to €300/year!), and i just don't have that kind of money, so you might want to disable your antivirus before installing.</p>
+            <p>Here are some of the applications I've developed. Feel free to download and try them out! (I advise that you read the 'README.txt' file after downloading one of my apps in order to have a better understanding of its functionalities.) Please note that you will most likely get an alert from your antivirus, that's because my applications are not signed; signing them would cost way too much (up to €300/year!), and I just don't have that kind of money, so you might want to disable your antivirus before installing.</p>
             <div class="applications">
                 <ul>
                     <li><a href="https://drive.google.com/uc?export=download&id=1VCVsI1wTlj1bi4sewSgzHgL2P1G8-g-g" download>Flap-PY Bird (Windows 10+ Only)</a></li>
@@ -143,10 +246,45 @@
                 <li>Discord: itsluck_y (Username) | justLucky (Display Name)</li>
             </ul>
         </section>
-    </div>
+    </main>
 
     <footer>
         <p>&copy; 2024 justLucky. All Rights Reserved.</p>
     </footer>
+    
+    <script>
+        const toggleSwitch = document.getElementById('dark-mode-toggle');
+        const footer = document.querySelector('footer');
+        const currentTheme = localStorage.getItem('theme');
+    
+        // Function to update theme and footer color
+        function updateTheme(theme) {
+            document.body.classList.toggle('dark-mode', theme === 'dark-mode');
+            footer.classList.toggle('dark-mode-footer', theme === 'dark-mode');
+            localStorage.setItem('theme', theme);
+        }
+    
+        if (currentTheme) {
+            updateTheme(currentTheme);
+            if (currentTheme === 'dark-mode') {
+                toggleSwitch.checked = true;
+            }
+        }
+    
+        toggleSwitch.addEventListener('change', function() {
+            if (this.checked) {
+                updateTheme('dark-mode');
+            } else {
+                updateTheme('light-mode');
+            }
+        });
+    </script>
+    
+    
+    
+    
+    
+    
+
 </body>
 </html>
