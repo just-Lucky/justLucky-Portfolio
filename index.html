@@ -8,6 +8,11 @@
     <title>justLucky's Website</title>
     <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --gray-dark-mode: #555; 
+            --white-mode-gray: #ccc;
+        }
+
         body {
             font-family: 'Lexend Deca', Arial, sans-serif;
             margin: 0;
@@ -58,11 +63,16 @@
         
         .section {
             padding: 2em 0;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 1px solid var(--white-mode-gray);
             text-align: center;
         }
+        #home { border-top: 1px solid var(--white-mode-gray);}
+
         body.dark-mode .section {
-            border-bottom-color: #555;
+            border-bottom-color: var(--gray-dark-mode);
+        }
+        body.dark-mode #home {
+            border-top-color: var(--gray-dark-mode);
         }
         .section h2 {
             text-align: center;
@@ -179,7 +189,7 @@
         .separator {
             border: none;
             height: 0.5px;
-            background-color: #555;
+            background-color: #ffffff;
             margin: 20px 0;
         }
         
@@ -203,9 +213,10 @@
             <label for="dark-mode-toggle">Toggle Dark Mode</label>
         </div>
     </header>
+
+
     <main class="container">
         <section id="home" class="section">
-            <hr class="separator">
             <h2>Welcome</h2>
             <p>Welcome to my portfolio! I'm known online as 'justLucky', an enthusiastic programmer and beginner-level ethical hacker. Explore my site to learn more about me and my work.</p>
         </section>
